@@ -1,11 +1,11 @@
 import express from "express";
 import axios from "axios";
 import * as cheerio from "cheerio";
-
-const PORT = 8000;
+import { configDotenv } from "dotenv";
 
 const app = express();
 app.use(express.json());
+configDotenv();
 
 // const guardianPost = async (url) => {
 //   try {
@@ -82,6 +82,6 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
+app.listen(process.env.PORT || 8000, () => {
+  console.log(`App listening on port 8000}`);
 });

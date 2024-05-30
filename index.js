@@ -7,27 +7,27 @@ const app = express();
 app.use(express.json());
 configDotenv();
 
-// const guardianPost = async (url) => {
-//   try {
-//     const { data } = await axios.get(url);
-//     const $ = cheerio.load(data);
+const guardianPost = async (url) => {
+  try {
+    const { data } = await axios.get(url);
+    const $ = cheerio.load(data);
 
-//     const scrapedData = [];
+    const scrapedData = [];
 
-//     $("a.title").each((i, element) => {
-//       const title = $(element).text().trim();
-//       const href = $(element).attr("href");
+    $("a.title").each((i, element) => {
+      const title = $(element).text().trim();
+      const href = $(element).attr("href");
 
-//       scrapedData.push({ title, href });
-//     });
+      scrapedData.push({ title, href });
+    });
 
-//     console.log("Scraped data from Guardian Post:", scrapedData);
-//     return scrapedData;
-//   } catch (error) {
-//     console.error("Error scraping Guardian Post:", error);
-//     return [];
-//   }
-// };
+    console.log("Scraped data from Guardian Post:", scrapedData);
+    return scrapedData;
+  } catch (error) {
+    console.error("Error scraping Guardian Post:", error);
+    return [];
+  }
+};
 
 const camNews = async (urls) => {
   try {
@@ -64,7 +64,7 @@ app.get("/", async (req, res) => {
   ];
 
   try {
-    // const dataPost = await guardianPost(url);
+    const dataPost = await guardianPost(url);
     const dataCamNews = await camNews(urls);
 
     const allDataFromCamNews = [];
@@ -74,7 +74,7 @@ app.get("/", async (req, res) => {
       })
      })
 
-    const combinedData = [ ...allDataFromCamNews];
+    const combinedData = [ ...dataPost,...allDataFromCamNews];
 
     res.json(combinedData);
   } catch (error) {
